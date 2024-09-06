@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Calculator</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0; /* Grey background for the entire page */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .calculator {
+            background-color: #000000; /* Black background for the calculator */
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            padding: 20px;
+            width: 320px;
+            display: grid;
+            grid-template-rows: auto 1fr;
+            gap: 10px;
+            grid-template-columns: repeat(4, 1fr);
+            position: relative;
+        }
+
+        .heading {
+            grid-column: span 4;
+            text-align: center;
+            color: #ffffff; /* White text for the heading */
+            font-size: 28px;
+            margin-bottom: 10px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .display {
+            grid-column: span 4;
+            height: 80px;
+            background-color: #333333; /* Dark grey background for the display */
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 36px;
+            color: #ffffff; /* White text color */
+            text-align: right;
+            border: 2px solid #444;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+            box-sizing: border-box;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .buttons {
+            grid-column: span 4;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        button {
+            height: 60px;
+            border: none;
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 24px;
+            cursor: pointer;
+            transition: background-color 0.3s, box-shadow 0.3s, transform 0.1s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: buttonPop 0.3s ease-out;
+        }
+
+        button:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            transform: scale(1.05);
+        }
+
+        .button-clear {
+            background-color: #ff5252; /* Red for clear */
+            grid-column: span 2;
+        }
+
+        .button-delete {
+            background-color: #ffab40; /* Orange for delete */
+        }
+
+        .button-operator {
+            background-color: #2979ff; /* Blue for operators */
+        }
+
+        .button-equal {
+            background-color: #66bb6a; /* Green for equal */
+            grid-column: span 4; /* Equal sign spans all columns */
+        }
+
+        .button-number {
+            background-color: #555555; /* Medium grey for numbers */
+        }
+
+        .button-number:hover {
+            background-color: #777777;
+        }
+
+        /* Keyframe animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes buttonPop {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="heading">Calculator</div>
+        <input type="text" placeholder="0" id="output-scr" class="display">
+        <div class="buttons">
+            <button class="button-clear" onclick="Clear()">C</button>
+            <button class="button-delete" onclick="del()">DEL</button>
+            <button class="button-operator" onclick="display('%')">%</button>
+            <button class="button-operator" onclick="display('/')">/</button>
+            <button class="button-number" onclick="display('7')">7</button>
+            <button class="button-number" onclick="display('8')">8</button>
+            <button class="button-number" onclick="display('9')">9</button>
+            <button class="button-operator" onclick="display('*')">*</button>
+            <button class="button-number" onclick="display('4')">4</button>
+            <button class="button-number" onclick="display('5')">5</button>
+            <button class="button-number" onclick="display('6')">6</button>
+            <button class="button-operator" onclick="display('-')">-</button>
+            <button class="button-number" onclick="display('1')">1</button>
+            <button class="button-number" onclick="display('2')">2</button>
+            <button class="button-number" onclick="display('3')">3</button>
+            <button class="button-operator" onclick="display('+')">+</button>
+            <button class="button-number" onclick="display('.')">.</button>
+            <button class="button-number" onclick="display('0')">0</button>
+            <button class="button-equal button-operator" onclick="Calculate()">=</button>
+        </div>
+    </div>
+
+    <script>
+        let outputScreen = document.getElementById("output-scr");
+
+        function display(num) {
+            if (outputScreen.value === "0" && num !== ".") {
+                outputScreen.value = num;
+            } else {
+                outputScreen.value += num;
+            }
+        }
+
+        function Calculate() {
+            try {
+                outputScreen.value = eval(outputScreen.value);
+            } catch (err) {
+                alert("INVALID");
+            }
+        }
+
+        function Clear() {
+            outputScreen.value = "0";
+        }
+
+        function del() {
+            outputScreen.value = outputScreen.value.slice(0, -1);
+            if (outputScreen.value === "") {
+                outputScreen.value = "0";
+            }
+        }
+    </script>
+</body>
+</html>
